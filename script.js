@@ -12,14 +12,14 @@ document.addEventListener('DOMContentLoaded', () => {
     };
     let currentUser = null;
 
-    // 3 Tiers
+    // 3 Tiers (แก้ไข: เปลี่ยน Emoji)
     const ITEMS = [
-        { name: 'Common', symbol: 'B', class: 'item-common', weight: 12 },
-        { name: 'Rare', symbol: 'A', class: 'item-rare', weight: 3 },
-        { name: 'Legendary', symbol: '7', class: 'item-legendary', weight: 2 }
+        { name: 'Common', symbol: '🪙', class: 'item-common', weight: 20 },      // 🪙 (Coin)
+        { name: 'Rare', symbol: '🌟', class: 'item-rare', weight: 3 },        // 🌟 (Star)
+        { name: 'Legendary', symbol: '💎', class: 'item-legendary', weight: 2 } // 💎 (Diamond)
     ];
 
-    // --- 2. DOM Elements (เหมือนเดิม) ---
+    // --- 2. DOM Elements ---
     const loginContainer = document.getElementById('login-container');
     const gameContainer = document.getElementById('game-container');
     const usernameInput = document.getElementById('username');
@@ -40,7 +40,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const audioLose = document.getElementById('audio-lose');
     const audioReveal = document.getElementById('audio-reveal');
 
-    // --- 3. ฟังก์ชันหลัก (เหมือนเดิม) ---
+    // --- 3. ฟังก์ชันหลัก ---
 
     function updateGoldDisplay(didWin = false) {
         if (currentUser) {
@@ -85,15 +85,23 @@ document.addEventListener('DOMContentLoaded', () => {
         return weightedList[randomIndex];
     }
 
+    /**
+     * อัปเดตอนิเมชั่นเปิด
+     */
     function revealChest(chestElement, item) {
-        chestElement.classList.remove('spinning');
+        chestElement.classList.remove('shaking'); // (แก้ไข: เปลี่ยนจาก spinning)
         chestElement.innerHTML = '';
         chestElement.textContent = item.symbol;
-        chestElement.classList.add(item.class);
+        chestElement.classList.add(item.class); // item-common, item-rare, ฯลฯ
+        chestElement.classList.add('item-reveal'); // (เพิ่มใหม่: อนิเมชั่น Pop)
+        
         audioReveal.currentTime = 0;
         audioReveal.play();
     }
 
+    /**
+     * อัปเดตอนิเมชั่นและ Emoji
+     */
     function handleOpenChest() {
         const betAmount = parseInt(betInput.value, 10);
         if (isNaN(betAmount) || betAmount <= 0) {
@@ -118,9 +126,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
         chests.forEach(chest => {
             chest.innerHTML = '';
-            chest.textContent = '❓';
-            chest.className = 'chest';
-            chest.classList.add('spinning');
+            chest.textContent = '
+            chest.className = 'chest'; // รีเซ็ตคลาสทั้งหมด
+            chest.style.backgroundColor = ''; // (เพิ่มใหม่: รีเซ็ตสีพื้นหลัง)
+            chest.classList.add('shaking'); // (แก้ไข: เปลี่ยนจาก spinning)
         });
 
         setTimeout(() => { revealChest(chests[0], results[0]); }, 700);
@@ -134,9 +143,10 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 2500);
     }
 
+
     /**
-     * *** นี่คือส่วนที่แก้ไข (Tiered 2-of-a-kind) ***
      * ตรวจสอบรางวัลและจ่ายโบนัส
+     * (แก้ไข: เพิ่มการลบ .item-reveal ตอนรีเซ็ต)
      */
     function checkWinnings(results, betAmount) {
         const [r1, r2, r3] = results.map(item => item.name);
@@ -148,41 +158,35 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // 3-of-a-kind
         if (r1 === r2 && r2 === r3) {
-            if (r1 === 'Legendary') bonus = betAmount * 20;  // (7)
-            else if (r1 === 'Rare') bonus = betAmount * 10; // (A)
-            else bonus = betAmount * 0.5; // (B - Common)
+            if (r1 === 'Legendary') bonus = betAmount * 20;  // (💎)
+            else if (r1 === 'Rare') bonus = betAmount * 10; // (🌟)
+            else bonus = betAmount * 0.5; // (🪙 - Common)
 
             message = `แจ็คพอต! ได้ ${results[0].symbol} 3 อัน! +${bonus.toLocaleString()} ทอง!`;
             chests.forEach(c => c.classList.add('win-pop'));
         }
-        // --- *** แก้ไขส่วนนี้ *** ---
         // 2-of-a-kind (Tiered)
         else if (r1 === r2 || r2 === r3 || r1 === r3) {
             
-            // หาสัญลักษณ์ที่ซ้ำ
             let doubledItemName = '';
             if (r1 === r2) doubledItemName = r1;
             else if (r2 === r3) doubledItemName = r2;
             else if (r1 === r3) doubledItemName = r1;
 
-            // ตรวจสอบ Tier
             if (doubledItemName === 'Legendary') {
-                bonus = betAmount * 5; // (7 สองอัน x5)
+                bonus = betAmount * 5; // (💎 สองอัน x5)
             } else if (doubledItemName === 'Rare') {
-                bonus = betAmount * 2.5; // (A สองอัน x2.5)
+                bonus = betAmount * 2.5; // (🌟 สองอัน x2.5)
             } else if (doubledItemName === 'Common') {
-                bonus = betAmount * 0.2; // (B สองอัน x0.2)
+                bonus = betAmount * 0.2; // (🪙 สองอัน x0.2)
             }
 
             message = `ได้ 2 อัน! +${bonus.toLocaleString()} ทอง!`;
             
-            // (อนิเมชั่น Pop เหมือนเดิม)
             if (r1 === r2) [chests[0], chests[1]].forEach(c => c.classList.add('win-pop'));
             if (r2 === r3) [chests[1], chests[2]].forEach(c => c.classList.add('win-pop'));
             if (r1 === r3) [chests[0], chests[2]].forEach(c => c.classList.add('win-pop'));
         }
-        // --- *** จบส่วนแก้ไข *** ---
-
         // ไม่ได้รางวัล
         else {
             message = 'ไม่ได้รางวัลเลย ลองใหม่อีกครั้ง!';
@@ -211,7 +215,8 @@ document.addEventListener('DOMContentLoaded', () => {
         resultMessage.textContent = message;
 
         setTimeout(() => {
-            chests.forEach(c => c.classList.remove('win-pop'));
+            // (แก้ไข: เพิ่มการลบ .item-reveal)
+            chests.forEach(c => c.classList.remove('win-pop', 'item-reveal'));
         }, 500);
     }
 
