@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
             name: 'Common', 
             symbol: 'B',
             class: 'item-common', // (B จะใช้สีเทา/เงิน จาก css)
-            weight: 20 
+            weight: 12 
         },
         // Tier 2: Rare - (A)
         { 
