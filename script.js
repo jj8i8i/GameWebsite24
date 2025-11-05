@@ -12,32 +12,12 @@ document.addEventListener('DOMContentLoaded', () => {
     };
     let currentUser = null;
 
-    // --- *** นี่คือส่วนที่แก้ไข (3 Tiers) *** ---
+    // 3 Tiers
     const ITEMS = [
-        // Tier 1: Common - (B)
-        { 
-            name: 'Common', 
-            symbol: 'B',
-            class: 'item-common', // (B จะใช้สีเทา/เงิน จาก css)
-            weight: 12 
-        },
-        // Tier 2: Rare - (A)
-        { 
-            name: 'Rare', 
-            symbol: 'A',
-            class: 'item-rare', // (A จะใช้สีแดง จาก css)
-            weight: 3
-        },
-        // Tier 3: Legendary - (7)
-        { 
-            name: 'Legendary', 
-            symbol: '7',
-            class: 'item-legendary', // (7 จะใช้สีทอง จาก css)
-            weight: 2
-        }
+        { name: 'Common', symbol: 'B', class: 'item-common', weight: 12 },
+        { name: 'Rare', symbol: 'A', class: 'item-rare', weight: 3 },
+        { name: 'Legendary', symbol: '7', class: 'item-legendary', weight: 2 }
     ];
-    // --- จบส่วนที่แก้ไข ---
-
 
     // --- 2. DOM Elements (เหมือนเดิม) ---
     const loginContainer = document.getElementById('login-container');
@@ -155,7 +135,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     /**
-     * *** (ปรับเงินรางวัลสำหรับ 3 Tiers) ***
+     * *** นี่คือส่วนที่แก้ไข (Tiered 2-of-a-kind) ***
      * ตรวจสอบรางวัลและจ่ายโบนัส
      */
     function checkWinnings(results, betAmount) {
@@ -168,24 +148,41 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // 3-of-a-kind
         if (r1 === r2 && r2 === r3) {
-            // --- อัปเดตตัวคูณรางวัล ---
             if (r1 === 'Legendary') bonus = betAmount * 20;  // (7)
             else if (r1 === 'Rare') bonus = betAmount * 10; // (A)
             else bonus = betAmount * 0.5; // (B - Common)
-            // ---
 
             message = `แจ็คพอต! ได้ ${results[0].symbol} 3 อัน! +${bonus.toLocaleString()} ทอง!`;
             chests.forEach(c => c.classList.add('win-pop'));
         }
-        // 2-of-a-kind
+        // --- *** แก้ไขส่วนนี้ *** ---
+        // 2-of-a-kind (Tiered)
         else if (r1 === r2 || r2 === r3 || r1 === r3) {
-            bonus = betAmount * 0.2; // (ได้คืน 20%)
+            
+            // หาสัญลักษณ์ที่ซ้ำ
+            let doubledItemName = '';
+            if (r1 === r2) doubledItemName = r1;
+            else if (r2 === r3) doubledItemName = r2;
+            else if (r1 === r3) doubledItemName = r1;
+
+            // ตรวจสอบ Tier
+            if (doubledItemName === 'Legendary') {
+                bonus = betAmount * 5; // (7 สองอัน x5)
+            } else if (doubledItemName === 'Rare') {
+                bonus = betAmount * 2.5; // (A สองอัน x2.5)
+            } else if (doubledItemName === 'Common') {
+                bonus = betAmount * 0.2; // (B สองอัน x0.2)
+            }
+
             message = `ได้ 2 อัน! +${bonus.toLocaleString()} ทอง!`;
             
+            // (อนิเมชั่น Pop เหมือนเดิม)
             if (r1 === r2) [chests[0], chests[1]].forEach(c => c.classList.add('win-pop'));
             if (r2 === r3) [chests[1], chests[2]].forEach(c => c.classList.add('win-pop'));
             if (r1 === r3) [chests[0], chests[2]].forEach(c => c.classList.add('win-pop'));
         }
+        // --- *** จบส่วนแก้ไข *** ---
+
         // ไม่ได้รางวัล
         else {
             message = 'ไม่ได้รางวัลเลย ลองใหม่อีกครั้ง!';
