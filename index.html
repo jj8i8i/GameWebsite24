@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>เกมเปิดหีบสมบัติ </title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bungee&family=Press+Start+2P&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div id="login-container" class="container">
+        <h2>เข้าสู่ระบบเกมล่าสมบัติ</h2>
+        <input type="text" id="username" placeholder="ชื่อผู้ใช้ (test1 - test5)">
+        <input type="password" id="password" placeholder="รหัสผ่าน (test1 - test5)">
+        <button id="login-button">เข้าสู่ระบบ</button>
+        <p id="login-error" class="error-message"></p>
+    </div>
+
+    <div id="game-container" class="container hidden">
+        
+        <div class="user-bar">
+            <span id="welcome-message"></span>
+            <span id="gold-display"></span>
+            <button id="logout-button">ออกจากระบบ</button>
+        </div>
+
+        <hr>
+
+        <h2 class="game-title">เปิดหีบสมบัติ!</h2>
+
+        <div class="chest-area">
+            <div class="chest" id="chest1">❓</div>
+            <div class="chest" id="chest2">❓</div>
+            <div class="chest" id="chest3">❓</div>
+        </div>
+
+        <div class="controls">
+            <label for="bet-input">Bet:</label>
+            <input type="number" id="bet-input" value="1000000" min="100000" max="10000000" step="100000">
+            <button id="open-button">เปิดหีบ!</button>
+        </div>
+
+        <p id="result-message"></p>
+
+    </div>
+
+    <audio id="audio-spin" src="spin.mp3" preload="auto"></audio>
+    <audio id="audio-win" src="win.mp3" preload="auto"></audio>
+    <audio id="audio-lose" src="lose.mp3" preload="auto"></audio>
+    <audio id="audio-reveal" src="reveal.mp3" preload="auto"></audio>
+
+    <script src="script.js"></script>
+</body>
+</html>
