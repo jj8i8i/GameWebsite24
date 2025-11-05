@@ -1,0 +1,212 @@
+/* นำเข้าฟอนต์ */
+@import url('https://fonts.googleapis.com/css2?family=Bungee&family=Press+Start+2P&family=Roboto:wght@400;700&display=swap');
+
+/* Basic Styles */
+body {
+    font-family: 'Roboto', sans-serif; 
+    background: radial-gradient(circle, #3a3a6e, #1a1a2e);
+    color: #e0e0e0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    font-weight: 400; 
+}
+
+.container {
+    background-color: #2a2a4e;
+    padding: 2rem;
+    border-radius: 10px;
+    border: 3px solid #f9c74f;
+    box-shadow: 0 0 30px rgba(249, 199, 79, 0.4);
+    width: 450px;
+    text-align: center;
+}
+
+/* ใช้ Bungee เฉพาะส่วนที่อยากให้หนาและเป็นเกม */
+h2, .controls label {
+    font-family: 'Bungee', cursive;
+}
+
+.hidden {
+    display: none;
+}
+
+/* Form Styles */
+input[type="text"],
+input[type="password"],
+input[type="number"] {
+    width: 90%;
+    padding: 12px;
+    margin: 10px 0;
+    border: 2px solid #9090be;
+    border-radius: 5px;
+    background-color: #1a1a2e;
+    color: #e0e0e0;
+    font-family: 'Roboto', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+}
+
+button {
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: 'Bungee', cursive; 
+    font-weight: bold;
+    font-size: 1.1rem;
+    transition: all 0.2s ease;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+}
+
+button:hover {
+    transform: scale(1.05);
+}
+button:active {
+    transform: scale(0.98);
+}
+
+button:disabled {
+    background-color: #555;
+    cursor: not-allowed;
+    transform: scale(1);
+}
+
+#login-button {
+    background-color: #43aa8b;
+    color: #fff;
+}
+#login-button:hover {
+    background-color: #3b9a7c;
+}
+
+#logout-button {
+    background-color: #f94144;
+    color: #fff;
+    padding: 8px 12px;
+    font-size: 0.9rem;
+}
+#logout-button:hover {
+    background-color: #e03033;
+}
+
+/* Game Styles */
+.user-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    font-size: 1rem;
+    font-weight: 700;
+}
+
+#gold-display {
+    font-weight: 700;
+    color: #f9c74f;
+    background-color: #1a1a2e;
+    padding: 5px 10px;
+    border-radius: 5px;
+}
+
+/* ใช้ฟอนต์ Press Start 2P ที่หัวข้อเกม */
+.game-title {
+    font-family: 'Press Start 2P', cursive;
+    color: #f9c74f;
+    font-size: 1.8rem;
+    text-shadow: 3px 3px 0px #f94144;
+}
+
+.chest-area {
+    display: flex;
+    justify-content: space-around;
+    margin: 2rem 0;
+}
+
+/* ช่องแสดงผลลัพธ์ */
+.chest {
+    width: 100px;
+    height: 100px;
+    background-color: #4a4a7c;
+    border: 3px solid #9090be;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 3.5rem; /* สำหรับอีโมจิ 7, A, B */
+    font-weight: bold;
+    transition: all 0.3s ease;
+    box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
+    transform-style: preserve-3d;
+    backface-visibility: hidden;
+    overflow: hidden;
+}
+
+/* คลาสสีสำหรับอีโมจิ */
+.item-legendary { color: #f9c74f; } /* 7 (สีทอง) */
+.item-rare { color: #f94144; }      /* A (สีแดง) */
+.item-common { color: #c0c0c0; }   /* B (สีเทา/เงิน) */
+
+/* อนิเมชั่น "หมุน" */
+.spinning {
+    animation: spin 0.5s linear infinite;
+}
+@keyframes spin {
+    from { transform: rotateY(0deg); }
+    to { transform: rotateY(360deg); }
+}
+
+/* อนิเมชั่นสำหรับช่องที่ชนะ */
+.win-pop {
+    animation: pop-animation 0.5s ease;
+}
+@keyframes pop-animation {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.2); box-shadow: 0 0 25px #f9c74f; }
+    100% { transform: scale(1); }
+}
+
+/* อนิเมชั่นสำหรับตัวเลขเงินตอนชนะ */
+.gold-flash {
+    animation: flash-animation 0.7s ease;
+}
+@keyframes flash-animation {
+    0% { color: #f9c74f; transform: scale(1); }
+    50% { color: #ffffff; transform: scale(1.15); }
+    100% { color: #f9c74f; transform: scale(1); }
+}
+
+/* ข้อความผลลัพธ์ */
+#result-message {
+    font-size: 1.1rem;
+    font-weight: 700;
+    height: 2em;
+    margin-top: 1rem;
+}
+
+.win-message {
+    color: #43aa8b;
+}
+.lose-message {
+    color: #f94144;
+}
+
+/* ปุ่มเปิดหีบ */
+#open-button {
+    background-color: #f9c74f;
+    color: #1a1a2e;
+    width: 80%;
+    margin-top: 1rem;
+    animation: pulse 1.5s infinite;
+}
+#open-button:hover {
+    background-color: #f8b400;
+}
+
+/* อนิเมชั่นปุ่ม "กระพริบ" */
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
