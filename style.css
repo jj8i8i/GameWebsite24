@@ -1,21 +1,9 @@
 /* นำเข้าฟอนต์ */
 @import url('https://fonts.googleapis.com/css2?family=Bungee&family=Press+Start+2P&family=Roboto:wght@400;700&display=swap');
 
-/* Basic Styles */
-body {
-    font-family: 'Roboto', sans-serif; 
-    background: radial-gradient(circle, #3a3a6e, #1a1a2e);
-    color: #e0e0e0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    margin: 0;
-    font-weight: 400; 
-}
-
-/* ... (โค้ด .container, h2, .hidden, input, button, #login-button, #logout-button, .user-bar, #gold-display, .game-title, .chest-area เหมือนเดิม) ... */
+/* ... (โค้ด body, .container, h2, .hidden, input, button, #login-button, #logout-button, .user-bar, #gold-display, .game-title, .chest-area เหมือนเดิม) ... */
 /* (ผมจะย่อส่วนที่ไม่เปลี่ยนนะครับ) */
+body { font-family: 'Roboto', sans-serif; background: radial-gradient(circle, #3a3a6e, #1a1a2e); color: #e0e0e0; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; font-weight: 400; }
 .container { background-color: #2a2a4e; padding: 2rem; border-radius: 10px; border: 3px solid #f9c74f; box-shadow: 0 0 30px rgba(249, 199, 79, 0.4); width: 450px; text-align: center; }
 h2, .controls label { font-family: 'Bungee', cursive; }
 .hidden { display: none; }
@@ -32,62 +20,40 @@ button:disabled { background-color: #555; cursor: not-allowed; transform: scale(
 #gold-display { font-weight: 700; color: #f9c74f; background-color: #1a1a2e; padding: 5px 10px; border-radius: 5px; }
 .game-title { font-family: 'Press Start 2P', cursive; color: #f9c74f; font-size: 1.8rem; text-shadow: 3px 3px 0px #f94144; }
 .chest-area { display: flex; justify-content: space-around; margin: 2rem 0; }
+.chest { width: 100px; height: 100px; background-color: #4a4a7c; border: 3px solid #9090be; border-radius: 10px; display: flex; justify-content: center; align-items: center; font-size: 3.5rem; font-weight: bold; transition: all 0.3s ease; box-shadow: inset 0 0 10px rgba(0,0,0,0.5); transform-style: preserve-3d; backface-visibility: hidden; overflow: hidden; }
 
+/* --- *** นี่คือส่วนที่แก้ไข (สี A, B) *** --- */
 
-/* ช่องแสดงผลลัพธ์ */
-.chest {
-    width: 100px;
-    height: 100px;
-    background-color: #4a4a7c;
-    border: 3px solid #9090be;
-    border-radius: 10px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 3.5rem; 
-    font-weight: bold;
-    transition: all 0.3s ease;
-    box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
-    transform-style: preserve-3d;
-    backface-visibility: hidden;
-    overflow: hidden;
-}
-
-/* --- *** นี่คือส่วนที่แก้ไข (สีตัวอักษร) *** --- */
-
-/* 7 (Legendary) - สีรุ้ง */
+/* 7 (Legendary) - สีรุ้ง (เหมือนเดิม) */
 .item-legendary {
-    /* สร้างพื้นหลังเป็นสีรุ้ง */
     background: linear-gradient(90deg, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #8b00ff);
-    /* ตั้งขนาดพื้นหลังให้ใหญ่กว่าตัวอักษร */
     background-size: 400% 400%;
-    /* ตัดพื้นหลังให้เหลือแค่รูปทรงตัวอักษร */
     -webkit-background-clip: text;
     -moz-background-clip: text;
     background-clip: text;
-    /* ทำให้ตัวอักษรโปร่งใส (เพื่อให้เห็นพื้นหลัง) */
     color: transparent;
-    /* เพิ่มอนิเมชั่น */
     animation: rainbow-scroll 3s linear infinite;
 }
 
-/* A (Rare) - ไล่เฉดสี แดง-ส้ม */
+/* A (Rare) - ไล่เฉดสี ม่วง-ชมพู */
 .item-rare {
-    background: linear-gradient(45deg, #f94144, #f3722c);
+    background: linear-gradient(45deg, #a200ff, #f000ff);
     -webkit-background-clip: text;
     -moz-background-clip: text;
     background-clip: text;
     color: transparent;
 }
 
-/* B (Common) - ไล่เฉดสี เทา-ขาว */
+/* B (Common) - ไล่เฉดสี ฟ้า-เขียว */
 .item-common {
-    background: linear-gradient(45deg, #c0c0c0, #ffffff);
+    background: linear-gradient(45deg, #00b4d8, #00ff87);
     -webkit-background-clip: text;
     -moz-background-clip: text;
     background-clip: text;
     color: transparent;
 }
+/* --- จบส่วนที่แก้ไข --- */
+
 
 /* อนิเมชั่น "หมุน" */
 .spinning {
@@ -98,7 +64,7 @@ button:disabled { background-color: #555; cursor: not-allowed; transform: scale(
     to { transform: rotateY(360deg); }
 }
 
-/* *** เพิ่ม: อนิเมชั่นสีรุ้ง *** */
+/* อนิเมชั่นสีรุ้ง */
 @keyframes rainbow-scroll {
     0% { background-position: 0% 50%; }
     50% { background-position: 100% 50%; }
